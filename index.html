@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Loading Secure Content...</title>
+<title>Loading...</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -12,48 +12,37 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg,#0f0f0f,#1c1c1c,#000);
-    background-size: 400% 400%;
-    animation: bgMove 12s ease infinite;
+    background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
-    color: white;
-}
-
-@keyframes bgMove {
-    0% {background-position:0% 50%}
-    50% {background-position:100% 50%}
-    100% {background-position:0% 50%}
 }
 
 .card {
-    backdrop-filter: blur(20px);
-    background: rgba(255,255,255,0.05);
+    background: white;
     padding: 40px;
     border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     text-align: center;
-    box-shadow: 0 0 60px rgba(0,255,255,0.2);
-    animation: fadeIn 1s ease;
+    animation: fadeIn 0.8s ease;
 }
 
 @keyframes fadeIn {
-    from {opacity:0; transform:scale(0.9);}
-    to {opacity:1; transform:scale(1);}
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
 }
 
 .title {
     font-size: 26px;
     margin-bottom: 20px;
-    letter-spacing: 2px;
-    color: #00ffff;
+    font-weight: 600;
+    color: #333;
 }
 
 .frame {
-    width: 300px;
-    height: 300px;
+    width: 320px;
+    height: 320px;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0,255,255,0.6);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .frame img {
@@ -61,50 +50,43 @@ body {
     height: 100%;
     object-fit: cover;
 }
-
-.status {
-    margin-top: 15px;
-    font-size: 14px;
-    opacity: 0.7;
-}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <div class="title">Securing Connection...</div>
-
+    <div class="title" id="gifTitle">Loading...</div>
     <div class="frame">
         <img id="prankGif" src="">
     </div>
-
-    <div class="status">Please wait while we verify your device.</div>
 </div>
 
+<!-- Audio -->
+<audio id="bgMusic" src="sounds/song.mp3" autoplay loop></audio>
+
 <script>
-// 🎲 Local GIF files
+// 🎲 GIF list with display names
 const GIFS = [
-    "assets/rickroll.gif",
-    "assets/tung.gif",
-    "assets/baby.gif",
-    "assets/67.gif"
+    { file: "assets/rickroll.gif", name: "Never Gonna Give You Up" },
+    { file: "assets/tung.gif", name: "Tung Tung Sahur" },
+    { file: "assets/baby.gif", name: "Funny Baby" },
+    { file: "assets/67.gif", name: "Meme 67" }
 ];
 
-// Random GIF
-document.getElementById("prankGif").src =
-    GIFS[Math.floor(Math.random() * GIFS.length)];
+// Pick random GIF
+const random = GIFS[Math.floor(Math.random() * GIFS.length)];
 
-// 📳 Vibrate 2 seconds every 5 seconds
-function startVibrationLoop() {
-    if (!navigator.vibrate) return;
+document.getElementById("prankGif").src = random.file;
+document.getElementById("gifTitle").textContent = random.name;
 
-    setInterval(() => {
-        navigator.vibrate(2000); // vibrate for 2 seconds
-    }, 5000);
-}
+// Force play audio (for browsers that block autoplay)
+const music = document.getElementById("bgMusic");
+music.volume = 0.8;
 
-startVibrationLoop();
+window.addEventListener("click", () => {
+    music.play();
+});
 </script>
 
 </body>
